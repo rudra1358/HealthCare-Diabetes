@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f8f6">
+    <meta name="description" content="An educational diabetes screening dashboard with dataset insights and an interactive model estimate.">
+    <title>GlucoGuide — Diabetes insights & care</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="GlucoGuide home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 36 36"><path d="M18 5v26M5 18h26"/><circle cx="18" cy="18" r="13"/></svg>
+        </span>
+        <span>gluco<span class="brand-light">guide</span></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-label="Open navigation">
+        <span></span><span></span>
+      </button>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#care">Your health</a>
+        <a href="#insights">Data insights</a>
+        <a href="#screening">Risk screening</a>
+        <a class="nav-cta" href="#screening">Explore your risk <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero section-wrap" id="home">
+        <div class="hero-copy reveal">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> A clearer picture of diabetes</div>
+          <h1>Small steps.<br><span>Stronger tomorrows.</span></h1>
+          <p class="hero-lede">Understand the patterns behind diabetes, explore the data, and take a thoughtful first step toward better health.</p>
+          <div class="hero-actions">
+            <a class="button button-dark" href="#screening">Try the screening <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="#insights">Explore the research <span aria-hidden="true">↓</span></a>
+          </div>
+          <div class="hero-note">
+            <span class="note-icon" aria-hidden="true">✳</span>
+            <span>Knowledge is a great place to begin.<br><strong>Care is always personal.</strong></span>
+          </div>
+        </div>
+        <div class="hero-art reveal" aria-label="Illustration of a healthcare professional">
+          <div class="art-orbit orbit-one"></div>
+          <div class="art-orbit orbit-two"></div>
+          <div class="hero-sun"></div>
+          <div class="hero-sticker sticker-top"><span>HEALTH, IN FOCUS</span><b>✳</b></div>
+          <div class="doctor-illustration">
+            <svg viewBox="0 0 390 450" role="img" aria-label="Friendly doctor illustration">
+              <ellipse cx="198" cy="423" rx="146" ry="15" fill="#d2dfd5"/>
+              <path d="M87 420c5-74 25-122 71-143l40-13 39 12c51 17 70 66 78 144H87Z" fill="#fff"/>
+              <path d="m160 278 38 56 41-56-20-19h-38l-21 19Z" fill="#dbe9df"/>
+              <path d="M148 293c-26 20-40 68-43 127h186c-5-65-19-108-52-129l-41 50-50-48Z" fill="#fdfefc"/>
+              <path d="m174 292 24 28 24-28-10-12h-29l-9 12Z" fill="#53a886"/>
+              <path d="m186 323-13 97h38l-12-97 9-7-11-12-12 12 10 7Z" fill="#cfe5d6"/>
+              <path d="M170 181c0-48 18-76 50-76 35 0 55 27 55 74 0 49-20 84-54 84-30 0-51-35-51-82Z" fill="#8f5b43"/>
+              <path d="M178 178c1-37 14-57 43-57 30 0 44 24 43 60l-3 40c-3 31-22 52-45 52-24 0-41-22-43-54l-1-41Z" fill="#e9b99a"/>
+              <path d="M174 176c-6-44 16-75 51-75 32 0 53 24 49 67-10-9-20-29-24-42-13 24-42 38-76 36Z" fill="#8f5b43"/>
+              <path d="M173 177c-11 0-18 7-16 20 1 11 8 18 19 18l-3-38Zm99 0c11-1 18 7 16 19-1 11-7 18-18 19l2-38Z" fill="#e9b99a"/>
+              <path d="M194 188h2m36 0h2" stroke="#573d35" stroke-width="5" stroke-linecap="round"/>
+              <path d="M204 224c8 7 19 7 27 0" fill="none" stroke="#b46f68" stroke-width="3" stroke-linecap="round"/>
+              <path d="M186 176c6-4 12-5 18-3m18 0c7-3 13-2 19 2" fill="none" stroke="#704537" stroke-width="3" stroke-linecap="round"/>
+              <path d="M189 259c10 9 23 14 36 13 14-1 26-7 34-17l6 29-34 40-43-42 1-23Z" fill="#e4ad8e"/>
+              <path d="M106 354c-19 8-27 21-27 37 0 17 12 26 29 26h34l13-63h-49Z" fill="#fff"/>
+              <path d="M103 354c-17 1-24 17-24 34" fill="none" stroke="#e4ece7" stroke-width="3"/>
+              <rect x="104" y="365" width="31" height="43" rx="5" fill="#edf5ef" stroke="#cdded1"/>
+              <path d="M119 375v22m-11-11h22" stroke="#71af8e" stroke-width="3" stroke-linecap="round"/>
+              <path d="M267 331c17 2 32 14 34 31l5 56h-38l-9-57 8-30Z" fill="#fff"/>
+              <path d="M299 371c16-5 30 4 33 16 3 12-7 22-24 24h-35l-2-26 28-14Z" fill="#e9b99a"/>
+              <circle cx="284" cy="319" r="8" fill="#e7b895"/>
+            </svg>
+          </div>
+          <div class="hero-sticker sticker-bottom"><b>♥</b><span>CARE THAT<br>MEETS YOU HERE</span></div>
+          <div class="hero-caption">A little more understanding<br>can make room for a lot of care.</div>
+        </div>
+        <a class="scroll-cue" href="#care"><span></span> SCROLL TO EXPLORE</a>
+      </section>
+
+      <section class="quote-band" aria-label="Health quote">
+        <div class="quote-mark">“</div>
+        <blockquote>Take care of your body. It’s the only place you have to live.</blockquote>
+        <span class="quote-credit">— Jim Rohn</span>
+        <div class="quote-sparkle" aria-hidden="true">✳</div>
+      </section>
+
+      <section class="care-section section-wrap section-pad" id="care">
+        <div class="section-heading reveal">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-dot"></span> Everyday care</div>
+            <h2>Good health is built<br>in the <span>everyday.</span></h2>
+          </div>
+          <p>Diabetes care is not one-size-fits-all. Small, sustainable habits and regular conversations with a healthcare professional can help you make informed choices.</p>
+        </div>
+        <div class="care-grid">
+          <article class="care-card reveal">
+            <div class="care-icon icon-sage"><svg viewBox="0 0 36 36"><path d="M18 28V12m0 8c0-8-7-11-12-9 0 7 4 12 12 12m0-4c0-8 7-12 13-9 0 8-5 13-13 13"/></svg></div>
+            <span class="card-number">01 / DAILY RHYTHM</span>
+            <h3>Move in a way<br>that feels good.</h3>
+            <p>Regular movement can support blood sugar and heart health. Start with something you enjoy and build gradually.</p>
+            <span class="care-arrow" aria-hidden="true">↗</span>
+          </article>
+          <article class="care-card reveal">
+            <div class="care-icon icon-peach"><svg viewBox="0 0 36 36"><path d="M18 29c-4-2-11-8-11-15a6 6 0 0 1 11-3 6 6 0 0 1 11 3c0 7-7 13-11 15Z"/><path d="M18 11c0-4 3-7 7-7"/></svg></div>
+            <span class="card-number">02 / NOURISHMENT</span>
+            <h3>Make room for<br>balanced meals.</h3>
+            <p>Eating a variety of nourishing foods can help. A registered dietitian can help make a plan that fits your life.</p>
+            <span class="care-arrow" aria-hidden="true">↗</span>
+          </article>
+          <article class="care-card reveal">
+            <div class="care-icon icon-blue"><svg viewBox="0 0 36 36"><path d="M18 4 7 9v8c0 7 5 12 11 15 6-3 11-8 11-15V9L18 4Z"/><path d="m13 18 4 4 7-8"/></svg></div>
+            <span class="card-number">03 / PREVENTION</span>
+            <h3>Keep up with<br>health check-ins.</h3>
+            <p>Ask your care team about screening, blood pressure, cholesterol, and the schedule that makes sense for you.</p>
+            <span class="care-arrow" aria-hidden="true">↗</span>
+          </article>
+          <article class="care-card reveal">
+            <div class="care-icon icon-lilac"><svg viewBox="0 0 36 36"><path d="M18 29a13 13 0 1 0-13-13v5l-1 5 5-1h5"/><path d="M13 16h10m-10 5h7"/></svg></div>
+            <span class="card-number">04 / SUPPORT</span>
+            <h3>Ask questions.<br>Find your people.</h3>
+            <p>Good care includes emotional wellbeing. Reach out to trusted people or a professional when you need support.</p>
+            <span class="care-arrow" aria-hidden="true">↗</span>
+          </article>
+        </div>
+        <div class="care-disclaimer reveal"><span aria-hidden="true">ⓘ</span> These are general wellness ideas, not a treatment plan. Talk with a qualified healthcare professional about your needs.</div>
+      </section>
+
+      <section class="insights-section section-pad" id="insights">
+        <div class="section-wrap">
+          <div class="insights-intro section-heading reveal">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-dot"></span> The data, made human</div>
+              <h2>Look closer.<br><span>Learn more.</span></h2>
+            </div>
+            <p>Explore the 100,000-row dataset from the notebook. Each chart below is interactive—hover for details, zoom in, or compare groups.</p>
+          </div>
+          <div class="dashboard-shell reveal">
+            <div class="dashboard-top">
+              <div>
+                <span class="dashboard-kicker">DIABETES DATASET</span>
+                <h3>Insights at a glance</h3>
+              </div>
+              <div class="dataset-chip"><span></span> 100,000 records</div>
+            </div>
+            <div class="stat-grid" id="summary-stats">
+              <div class="stat-card"><span>RECORDS ANALYZED</span><strong>—</strong><small>People in the dataset</small></div>
+              <div class="stat-card"><span>DIABETES CASES</span><strong>—</strong><small>Positive records</small></div>
+              <div class="stat-card"><span>DIABETES RATE</span><strong>—</strong><small>Across all records</small></div>
+              <div class="stat-card"><span>DUPLICATE ROWS</span><strong>—</strong><small>Found in the dataset</small></div>
+            </div>
+            <div class="tabs" role="tablist" aria-label="Explore dataset analysis">
+              <button class="tab-button active" type="button" role="tab" aria-selected="true" data-panel="snapshot">Snapshot</button>
+              <button class="tab-button" type="button" role="tab" aria-selected="false" data-panel="clinical">Clinical profiles</button>
+              <button class="tab-button" type="button" role="tab" aria-selected="false" data-panel="relationships">Relationships</button>
+            </div>
+            <p class="tab-description" id="tab-description">The balance of diabetes cases and how smoking-history groups are represented.</p>
+            <div class="chart-panel active" id="panel-snapshot" role="tabpanel">
+              <div class="notebook-highlights">
+                <div class="highlights-heading"><span>NOTEBOOK COHORT · “NO INFO” EXCLUDED</span><p>Descriptive findings reported for the model’s 64,184-record cohort.</p></div>
+                <div class="highlight-grid" id="notebook-highlights"></div>
+              </div>
+              <article class="chart-card chart-card-large">
+                <div class="chart-heading"><div><span class="chart-index">01</span><h4>Diabetes in the dataset</h4></div><p>Most records are non-diabetic; the full dataset contains 8.5% positive cases.</p></div>
+                <div class="chart-plot" id="chart-target"></div>
+                <div class="chart-explanation"><strong>Why it matters</strong><span>Class imbalance makes accuracy alone an incomplete measure of model performance. Precision-recall metrics are useful context.</span></div>
+              </article>
+              <article class="chart-card chart-card-large">
+                <div class="chart-heading"><div><span class="chart-index">02</span><h4>Smoking history & diabetes</h4></div><p>Each bar shows the share of diabetes outcomes within that smoking-history group.</p></div>
+                <div class="chart-plot" id="chart-smoking"></div>
+                <div class="chart-explanation"><strong>Read with care</strong><span>This dataset view shows association, not cause. Smoking history alone cannot explain an individual’s health.</span></div>
+              </article>
+              <article class="chart-card chart-card-large">
+                <div class="chart-heading"><div><span class="chart-index">03</span><h4>Who is represented?</h4></div><p>Counts across the six smoking-history categories recorded in the source data.</p></div>
+                <div class="chart-plot" id="chart-smoking-counts"></div>
+                <div class="chart-explanation"><strong>Dataset note</strong><span>“No Info” is a missing-history category. The notebook removes these records before training its model.</span></div>
+              </article>
+              <article class="chart-card chart-card-large model-card">
+                <div class="chart-heading"><div><span class="chart-index">04</span><h4>How the selected model performed</h4></div><p>CatBoost results reported by the notebook on its held-out test set.</p></div>
+                <div class="metric-bars" id="chart-model-metrics"></div>
+                <div class="chart-explanation"><strong>Important context</strong><span>The evaluation used records with known smoking history, not every row in the dataset. Recall and precision describe different trade-offs; no score is a guarantee for an individual.</span></div>
+              </article>
+            </div>
+            <div class="chart-panel" id="panel-clinical" role="tabpanel" hidden>
+              <div class="chart-card-grid" id="clinical-charts"></div>
+            </div>
+            <div class="chart-panel" id="panel-relationships" role="tabpanel" hidden>
+              <div class="chart-card-grid" id="relationship-charts"></div>
+            </div>
+            <div class="source-note"><span class="source-dot"></span><span>Source: supplied diabetes prediction dataset and Jupyter notebook. Charts use the full dataset or a clearly sampled view for readability.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screening-section section-wrap section-pad" id="screening">
+        <div class="screening-intro reveal">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> A model estimate, not a diagnosis</div>
+          <h2>Curious about<br><span>your numbers?</span></h2>
+          <p>Enter the health indicators used by the notebook’s model to see its estimated diabetes probability. This is an educational demonstration—not medical advice or a substitute for testing.</p>
+          <div class="screening-points">
+            <div><span class="point-check">✓</span> Your information is processed in this app and is not saved.</div>
+            <div><span class="point-check">✓</span> Results are not a diagnosis or a treatment recommendation.</div>
+            <div><span class="point-check">✓</span> If you have concerns, speak with a healthcare professional.</div>
+          </div>
+          <div class="model-performance">
+            <div class="performance-icon">✳</div>
+            <div><strong>Trained to notice more positive cases</strong><p>The notebook reports 92.4% recall and 52.0% precision on its test set. Those are group-level results, not a personal certainty.</p></div>
+          </div>
+        </div>
+        <div class="screening-card reveal">
+          <div class="form-header">
+            <div class="form-header-icon"><svg viewBox="0 0 28 28"><path d="M14 4v20M4 14h20"/></svg></div>
+            <div><span>PERSONALIZED ESTIMATE</span><h3>Your health profile</h3></div>
+          </div>
+          <form id="prediction-form">
+            <div class="form-grid">
+              <label class="field"><span>Gender</span><select name="gender" required><option value="" disabled selected>Select</option><option>Female</option><option>Male</option><option>Other</option></select></label>
+              <label class="field"><span>Age <small>(years)</small></span><input name="age" type="number" min="0.08" max="80" step="any" placeholder="e.g. 42" required></label>
+              <label class="field"><span>BMI</span><input name="bmi" type="number" min="10.01" max="95.69" step="0.01" placeholder="e.g. 24.5" required><small>Body mass index</small></label>
+              <label class="field"><span>HbA1c level</span><input name="HbA1c_level" type="number" min="3.5" max="9" step="0.1" placeholder="e.g. 5.7" required><small>Use your recent lab result</small></label>
+              <label class="field"><span>Blood glucose <small>(mg/dL)</small></span><input name="blood_glucose_level" type="number" min="80" max="300" step="1" placeholder="e.g. 120" required></label>
+              <label class="field"><span>Smoking history</span><select name="smoking_history" required><option value="" disabled selected>Select</option><option value="never">Never</option><option value="former">Former</option><option value="current">Current</option><option value="not current">Not current</option><option value="ever">Ever</option></select><small>“No Info” records were excluded from model training.</small></label>
+              <fieldset class="field field-toggle"><legend>Hypertension</legend><div class="segmented-control"><label><input type="radio" name="hypertension" value="0" checked><span>No</span></label><label><input type="radio" name="hypertension" value="1"><span>Yes</span></label></div></fieldset>
+              <fieldset class="field field-toggle"><legend>Heart disease</legend><div class="segmented-control"><label><input type="radio" name="heart_disease" value="0" checked><span>No</span></label><label><input type="radio" name="heart_disease" value="1"><span>Yes</span></label></div></fieldset>
+            </div>
+            <div class="model-readiness {% if not model_ready %}model-warning{% endif %}" role="status">
+              <span class="readiness-dot"></span>
+              <span>{% if model_ready %}Model ready · CatBoost{% else %}Model setup needed · See note below{% endif %}</span>
+            </div>
+            {% if not model_ready %}<p class="model-error">{{ model_message }}</p>{% endif %}
+            <button class="button button-dark predict-button" type="submit" {% if not model_ready %}disabled{% endif %}>Calculate estimate <span aria-hidden="true">↗</span></button>
+            <p class="range-note">Inputs use dataset ranges; notebook outlier handling is applied before prediction.</p>
+          </form>
+          <div class="prediction-result" id="prediction-result" hidden aria-live="polite">
+            <div class="result-topline"><span>YOUR MODEL ESTIMATE</span><button type="button" id="edit-result">Edit profile</button></div>
+            <div class="probability-visual" id="probability-visual">
+              <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="gauge-track" cx="60" cy="60" r="48"></circle><circle class="gauge-progress" cx="60" cy="60" r="48"></circle></svg>
+              <div class="gauge-label"><strong id="probability-value">0%</strong><span>estimated probability</span></div>
+            </div>
+            <div class="result-message"><span class="result-icon" id="result-icon">✳</span><h4 id="result-title"></h4><p id="result-copy"></p></div>
+            <div class="result-disclaimer"><span>ⓘ</span> A model estimate is not a diagnosis. Only a qualified healthcare professional can interpret your health and recommend tests or care.</div>
+            <button class="button button-dark predict-again" type="button" id="predict-again">Try another profile <span aria-hidden="true">↻</span></button>
+          </div>
+          <div class="form-error" id="form-error" role="alert" hidden></div>
+        </div>
+      </section>
+
+      <section class="closing-band">
+        <div class="closing-symbol" aria-hidden="true">✳</div>
+        <p>Health is a journey, not a score.</p>
+        <a href="#care">Explore everyday care <span aria-hidden="true">↗</span></a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand footer-brand" href="#home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 36 36"><path d="M18 5v26M5 18h26"/><circle cx="18" cy="18" r="13"/></svg></span>
+        <span>gluco<span class="brand-light">guide</span></span>
+      </a>
+      <p>Made for learning. Not for diagnosis.</p>
+      <a href="#home">Back to top ↑</a>
+    </footer>
+  </body>
+</html>
